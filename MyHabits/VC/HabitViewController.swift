@@ -199,6 +199,7 @@ class HabitViewController: UIViewController {
         self.view.addSubview(timeDateLabel)
         self.view.addSubview(timePicker)
         self.view.addSubview(deleteHabitButton)
+        self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .white
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
         self.navigationItem.leftBarButtonItem  = UIBarButtonItem(customView: cancelButton)
