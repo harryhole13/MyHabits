@@ -28,37 +28,21 @@ class HabitsViewController: UIViewController {
         collection.register(ProgressCollectionViewCell.self, forCellWithReuseIdentifier: "Progress")
         return collection
     }()
-    
-//    lazy private var coll: UITableView = {
-//        let tableView = UITableView(frame: .zero, style: .insetGrouped)
-//        tableView.translatesAutoresizingMaskIntoConstraints = false
-////        tableView.delegate = self
-//        tableView.dataSource = self
-////        tableView.register(InfoTableViewCell.self, forCellReuseIdentifier: "Info")
-//        tableView.backgroundColor = .white
-//        return tableView
-//    }()
-    
+
     private lazy var addButton:UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(showPostModal), for: .touchUpInside)
-//        button.imageView?.contentMode = .scaleAspectFit
-//        button.contentVerticalAlignment = .fill
-//        button.contentHorizontalAlignment = .fill
-//        button.backgroundColor = .s
-//        button.imageView?.frame = .init(x: 0, y: 0, width: 344, height: 344)
+
         return button
     }()
     
     @objc private func showPostModal() {
         let edit = UINavigationController(rootViewController: HabitViewController(hideDeleteButton: true, nameHabit: "", colorButton: .blue) )
-//        let edit1 = HabitViewController()
         edit.modalPresentationStyle = .fullScreen
         print("touchButton")
         self.present(edit, animated: true)  //modalno
-//        self.navigationController?.pushViewController(edit1, animated: true)
     }
     
     private lazy var today:UILabel = {
@@ -73,7 +57,6 @@ class HabitsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
-//        self.view.addSubview(addButton)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         self.navigationItem.title = today.text
         self.navigationController?.navigationBar.prefersLargeTitles = true
@@ -101,13 +84,10 @@ class HabitsViewController: UIViewController {
         let trailingAnchor = self.coollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         let bottomAnchor = self.coollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         
-        
         return [
             topAnchor, leadingAnchor, trailingAnchor, bottomAnchor
         ]
     }
-    
-
 }
 
 extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MyFirstDelegate {
@@ -121,9 +101,6 @@ extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDele
         print("Reload Collection")
             print("addCurrent Date in cell \(indexPath.row)")
         }
-    
-    
-
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let count = HabitsStore.shared.habits.count + 1

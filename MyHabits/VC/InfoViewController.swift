@@ -43,8 +43,7 @@ class InfoViewController: UIViewController {
 }
 
 extension InfoViewController: UITableViewDataSource, UITableViewDelegate {
-    
-    
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
             return 1

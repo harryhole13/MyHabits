@@ -117,14 +117,11 @@ class HabitCollectionViewCell: UICollectionViewCell {
         print("setupGesture")
     }
 
-
     @objc func tapAction() {
         delegate?.trackerIsReady(cell: self)
         print("@Objc tapAction ")
         
     }
-    
-    
     
     func setupCell(with habit: Habit) {
         self.nameHabit.text = habit.name
@@ -132,7 +129,6 @@ class HabitCollectionViewCell: UICollectionViewCell {
         self.everyDayInTime.text = habit.dateString
         if habit.isAlreadyTakenToday {
             self.tracker.image = UIImage(systemName: "checkmark.circle.fill")
-            
         }
     }
 }
