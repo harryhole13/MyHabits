@@ -14,6 +14,8 @@ class InfoViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.allowsSelection = false
+        tableView.separatorStyle = .none
         tableView.register(InfoTableViewCell.self, forCellReuseIdentifier: "Info")
         tableView.backgroundColor = .white
         return tableView

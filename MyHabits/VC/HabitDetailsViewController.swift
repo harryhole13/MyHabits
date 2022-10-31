@@ -45,12 +45,13 @@ class HabitDetailsViewController: UIViewController {
     }()
     
     @objc private func editHabit() {
-        let rootVC = HabitViewController(hideDeleteButton: false, nameHabit: habit.name, colorButton: habit.color)
-        let edit = UINavigationController(rootViewController: rootVC)
-        rootVC.index = self.index
-        edit.modalPresentationStyle = .fullScreen
+        let VC = HabitViewController(hideDeleteButton: false, nameHabit: habit.name, colorButton: habit.color)
+//        let edit = UINavigationController(rootViewController: VC)
+        VC.index = self.index
+        VC.modalPresentationStyle = .fullScreen
         print("touchButton index \(index)")
-        self.present(edit, animated: true)  //modalno
+        navigationController?.pushViewController(VC, animated: true)
+//        self.present(VC, animated: true)  //modalno
     }
     
     let imageChek:UIImageView = {
@@ -68,13 +69,20 @@ class HabitDetailsViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: editButton)
         self.navigationController?.navigationBar.prefersLargeTitles = false
         self.navigationItem.title = nameTitleHabit
-        print("view didload \(habit.date)")
+        print("viewDidLoad HabitDetailsViewController")
         calculateDates(from: habit.date)
-        print(arrayDates)
+//        print(arrayDates)
         NSLayoutConstraint.activate(setupTableVIew())
-        print("PRINT CHECK \(chek)")
+//        print("PRINT CHECK \(chek)")
         
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("viewWillAppear HabitDetailsViewController")
+    }
+    
+    
     private func setupTableVIew() -> [NSLayoutConstraint] {
         let topAnchor = self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         let leadingAnchor = self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
@@ -102,8 +110,8 @@ extension HabitDetailsViewController: UITableViewDelegate, UITableViewDataSource
         currentDate.string(from: arrayDates[indexPath.row])
     
         
-                print("loop start \(indexPath.row)")
-                print(Date())
+//                print("loop start \(indexPath.row)")
+//                print(Date())
                 let cell = UITableViewCell()
                 let active:UILabel = {
                     let label = UILabel()
@@ -115,6 +123,7 @@ extension HabitDetailsViewController: UITableViewDelegate, UITableViewDataSource
                 }()
                 
                 cell.backgroundColor = .white
+        
         if habit.isAlreadyTakenToday {
             cell.addSubview(self.imageChek)
             NSLayoutConstraint.activate([

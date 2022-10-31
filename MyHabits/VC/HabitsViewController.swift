@@ -62,20 +62,18 @@ class HabitsViewController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.view.addSubview(coollectionView)
         NSLayoutConstraint.activate(setupCollectionVIew())
-        print("viewdidload")
+        print(HabitsStore.shared.todayProgress)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.coollectionView.reloadData()
-        print("Reload Collection")
-//        collectionView(coollectionView, cellForItemAt: IndexPath)
-        print("viewWillAppear")
+        print("viewWillAppear  HabitsViewController ")
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("viewWillDisappear")
+        print("viewWillDisappear HabitsViewController")
     }
 
     private func setupCollectionVIew() -> [NSLayoutConstraint] {
@@ -90,16 +88,23 @@ class HabitsViewController: UIViewController {
     }
 }
 
-extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, MyFirstDelegate {
+extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, TrackerDelegate {
+    
+//    func upProgress() {
+//        self.coollectionView.reloadData()
+//       
+//    }
+    
+    
     
     func trackerIsReady(cell: UICollectionViewCell) {
         guard let indexPath = self.coollectionView.indexPath(for: cell) else {
-                return
+            return
             }
         HabitsStore.shared.track(HabitsStore.shared.habits[indexPath.row - 1])
         self.coollectionView.reloadData()
         print("Reload Collection")
-            print("addCurrent Date in cell \(indexPath.row)")
+        print("addCurrent Date in cell \(indexPath.row)")
         }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -116,19 +121,22 @@ extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDele
             else {
                 return UICollectionViewCell()
             }
-            print("render 1 cell")
+            print("render progress")
             cell.layer.cornerRadius = 8
             cell.clipsToBounds = true
+            
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Habit", for: indexPath) as? HabitCollectionViewCell
             else {
                 return UICollectionViewCell()
             }
-            cell.delegate = self
+            
             let habit = HabitsStore.shared.habits[indexPath.row - 1]
             cell.setupCell(with: habit)
-            print(indexPath.row)
+            cell.delegate_tracker = self
+            cell.setupCell(with: habit)
+            print("render \(indexPath.row - 1)")
             cell.layer.cornerRadius = 8
             cell.clipsToBounds = true
             return cell
@@ -140,14 +148,14 @@ extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDele
             let edit1 = HabitDetailsViewController()
             
             edit1.habit = HabitsStore.shared.habits[indexPath.row - 1]
-            print("press habit \(indexPath) ")
-            print("press \(HabitsStore.shared.habits[indexPath.row - 1].name)")
+//            print("press habit \(indexPath) ")
+//            print("press \(HabitsStore.shared.habits[indexPath.row - 1].name)")
             edit1.index = indexPath.row - 1
             
             edit1.chek = HabitsStore.shared.habits[indexPath.row - 1].name
             edit1.nameTitleHabit = HabitsStore.shared.habits[indexPath.row - 1].name
             
-            print("didSelect")
+            print("didSelect navigationController?.pushViewController(edit1, animated: true) ")
             navigationController?.pushViewController(edit1, animated: true) // YАш VC
         }
     }

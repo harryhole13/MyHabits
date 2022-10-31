@@ -7,16 +7,15 @@
 
 import UIKit
 
-protocol MyFirstDelegate: AnyObject {
-    
+protocol TrackerDelegate: AnyObject {
     func trackerIsReady(cell: UICollectionViewCell)
-    
 }
 
 class HabitCollectionViewCell: UICollectionViewCell {
     
 //    var delegate: HabitsViewController? // тоже самое только без протокола
-    var delegate: MyFirstDelegate?
+    var delegate_tracker: TrackerDelegate?
+    
     
     private lazy var nameHabit:UILabel = {
         let label = UILabel()
@@ -114,11 +113,12 @@ class HabitCollectionViewCell: UICollectionViewCell {
         tapGesture.addTarget(self, action: #selector(tapAction))
         self.tracker.isUserInteractionEnabled = true
         self.tracker.addGestureRecognizer(tapGesture)
-        print("setupGesture")
+        print("setupGesture HabitCollectionViewCell")
     }
 
     @objc func tapAction() {
-        delegate?.trackerIsReady(cell: self)
+        delegate_tracker?.trackerIsReady(cell: self)
+        
         print("@Objc tapAction ")
         
     }

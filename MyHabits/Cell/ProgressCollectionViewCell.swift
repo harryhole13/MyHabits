@@ -7,7 +7,13 @@
 
 import UIKit
 
+//protocol ProgressDelegate: AnyObject {
+//    func upProgress()
+//}
+
 class ProgressCollectionViewCell: UICollectionViewCell {
+    
+    var delegate: TrackerDelegate?
     
     private lazy var everythingWillDone:UILabel = {
         let label = UILabel()
@@ -18,10 +24,11 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    
     private lazy var percent:UILabel = {
         let label = UILabel()
-        let Int:Int = Int(HabitsStore.shared.todayProgress)
-        label.text = "\(Int * 100)%"
+        let value = Int(HabitsStore.shared.todayProgress * 100)
+        label.text = "\(value)%"
         label.textColor = .lightGray
         label.textAlignment = .right
         label.font = .systemFont(ofSize: 13)
@@ -44,6 +51,8 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -85,7 +94,8 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         let topAnchor = self.stripProgressFull.topAnchor.constraint(equalTo: self.contentView.topAnchor,constant: 38)
         let bottomAnchor = self.stripProgressFull.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15)
         let leadingAnchor = self.stripProgressFull.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 12)
-        let widthAnchor = self.stripProgressFull.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 57) * 0.5)
+        let widthAnchor = self.stripProgressFull.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 57) * CGFloat(HabitsStore.shared.todayProgress))
+        
         return [
             topAnchor, leadingAnchor, bottomAnchor, widthAnchor
         ]

@@ -96,9 +96,10 @@ class HabitViewController: UIViewController {
     }()
     
     private lazy var timePicker:UIDatePicker = {
-        var time = UIDatePicker(frame: CGRect(x: 0, y: 300, width: 320, height: 216))
+        var time = UIDatePicker()
         time.preferredDatePickerStyle = .wheels
         time.datePickerMode = UIDatePicker.Mode.time
+        time.translatesAutoresizingMaskIntoConstraints = false
         time.addTarget(self, action: #selector(changeDate), for: .valueChanged)
         return time
     }()
@@ -107,7 +108,6 @@ class HabitViewController: UIViewController {
         let dateFormat = DateFormatter()
         dateFormat.dateFormat = "HH:mm a"
         self.timeDateLabel.text = "\(dateFormat.string(from: self.timePicker.date))"
-        
     }
     
     @objc private func deleteHabit() {
@@ -125,8 +125,7 @@ class HabitViewController: UIViewController {
                     _ in
                     HabitsStore.shared.habits.remove(at: self.index!)
                     print ("Delete habit index \(self.index!)")
-                    self.dismiss(animated: true, completion: nil)
-                    
+                    self.navigationController?.popToRootViewController(animated: true)
                     }
             
             let cancelAlert = UIAlertAction(
@@ -136,9 +135,7 @@ class HabitViewController: UIViewController {
             
             alertInfo.addAction(okAction)
             alertInfo.addAction(cancelAlert)
-            
             self.present(alertInfo, animated: true, completion: nil)
-        
         }
     
     
@@ -161,7 +158,7 @@ class HabitViewController: UIViewController {
             
             store.habits.append(newHabit)
      
-            print(dump(store.habits))
+            print("add \(newHabit.isAlreadyTakenToday)")
             
             dismiss(animated: true, completion: nil)
             
@@ -169,8 +166,8 @@ class HabitViewController: UIViewController {
            
             store.habits[index!] = newHabit
             print("Replace index \(index!)")
-//            navigationController?.popToRootViewController(animated: true)
-            dismiss(animated: true, completion: nil)
+            navigationController?.popToRootViewController(animated: true)
+//            dismiss(animated: true, completion: nil)
         }
     }
         
@@ -184,7 +181,13 @@ class HabitViewController: UIViewController {
     }()
     
     @objc private func backVC() {
-        dismiss(animated: true, completion: nil)
+        
+        if deleteHabitButton.isHidden == true {
+            
+            dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
+        }
     }
     
     override func viewDidLoad() {
@@ -199,6 +202,7 @@ class HabitViewController: UIViewController {
         self.view.addSubview(timeDateLabel)
         self.view.addSubview(timePicker)
         self.view.addSubview(deleteHabitButton)
+        tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.navigationBar.backgroundColor = .white
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(customView: saveButton)
@@ -211,6 +215,7 @@ class HabitViewController: UIViewController {
         NSLayoutConstraint.activate(setupTimeLabel())
         NSLayoutConstraint.activate(setupEveryDay())
         NSLayoutConstraint.activate(setupDeleteHabitButton())
+        NSLayoutConstraint.activate(setupTimePicker())
         NSLayoutConstraint.activate(setupTimeDateLabel())
     }
     
@@ -242,11 +247,12 @@ class HabitViewController: UIViewController {
     }
     
     private func setupTimePicker() -> [NSLayoutConstraint] {
-//        let topAnchor = self.datePicker.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 46)
-//        let leadingAnchor = self.datePicker.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15)
-        let topAnchor = self.timePicker.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor,constant: 215)
+        let topAnchor = self.timePicker.topAnchor.constraint(equalTo: self.everyDayLabel.bottomAnchor,constant: 15)
+        let leadingAnchor = self.timePicker.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
+        let trailingAnchor = self.timePicker.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        let heightAnchor = self.timePicker.heightAnchor.constraint(equalToConstant: 216)
         return [
-            topAnchor,
+            topAnchor, leadingAnchor, trailingAnchor, heightAnchor
         ]
     }
     
