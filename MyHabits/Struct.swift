@@ -15,6 +15,3 @@ struct InfoHabits {
     let views: Int
 }
 
-struct ModelInfo {
-        let text: String
-}

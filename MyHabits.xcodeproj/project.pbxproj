@@ -10,8 +10,6 @@
 		870142FA28DEF53300B318DC /* HabitsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870142F928DEF53300B318DC /* HabitsStore.swift */; };
 		870142FD28DEF95000B318DC /* HabitsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870142FC28DEF95000B318DC /* HabitsViewController.swift */; };
 		870142FF28E0F75A00B318DC /* Struct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 870142FE28E0F75A00B318DC /* Struct.swift */; };
-		8701430128E0F84500B318DC /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8701430028E0F84500B318DC /* DataBase.swift */; };
-		8701430428E0FAD400B318DC /* InfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8701430328E0FAD400B318DC /* InfoTableViewCell.swift */; };
 		8701430828E3775C00B318DC /* HabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8701430728E3775C00B318DC /* HabitViewController.swift */; };
 		8701430C28E8A4B100B318DC /* ProgressCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8701430B28E8A4B100B318DC /* ProgressCollectionViewCell.swift */; };
 		8701430E28E8A6E700B318DC /* HabitCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8701430D28E8A6E700B318DC /* HabitCollectionViewCell.swift */; };
@@ -27,8 +25,6 @@
 		870142F928DEF53300B318DC /* HabitsStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HabitsStore.swift; sourceTree = "<group>"; };
 		870142FC28DEF95000B318DC /* HabitsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitsViewController.swift; sourceTree = "<group>"; };
 		870142FE28E0F75A00B318DC /* Struct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Struct.swift; sourceTree = "<group>"; };
-		8701430028E0F84500B318DC /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
-		8701430328E0FAD400B318DC /* InfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoTableViewCell.swift; sourceTree = "<group>"; };
 		8701430728E3775C00B318DC /* HabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitViewController.swift; sourceTree = "<group>"; };
 		8701430B28E8A4B100B318DC /* ProgressCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCollectionViewCell.swift; sourceTree = "<group>"; };
 		8701430D28E8A6E700B318DC /* HabitCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -67,7 +63,6 @@
 		8701430228E0FA1200B318DC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				8701430328E0FAD400B318DC /* InfoTableViewCell.swift */,
 				8701430B28E8A4B100B318DC /* ProgressCollectionViewCell.swift */,
 				8701430D28E8A6E700B318DC /* HabitCollectionViewCell.swift */,
 			);
@@ -102,7 +97,6 @@
 				875928B528DC781E0042BF40 /* LaunchScreen.storyboard */,
 				875928B828DC781E0042BF40 /* Info.plist */,
 				870142FE28E0F75A00B318DC /* Struct.swift */,
-				8701430028E0F84500B318DC /* DataBase.swift */,
 			);
 			path = MyHabits;
 			sourceTree = "<group>";
@@ -178,13 +172,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				870142FF28E0F75A00B318DC /* Struct.swift in Sources */,
-				8701430428E0FAD400B318DC /* InfoTableViewCell.swift in Sources */,
 				870142FA28DEF53300B318DC /* HabitsStore.swift in Sources */,
 				875928AF28DC781B0042BF40 /* InfoViewController.swift in Sources */,
 				8701431028EA22D400B318DC /* HabitDetailsViewController.swift in Sources */,
 				8701430E28E8A6E700B318DC /* HabitCollectionViewCell.swift in Sources */,
 				875928AB28DC781B0042BF40 /* AppDelegate.swift in Sources */,
-				8701430128E0F84500B318DC /* DataBase.swift in Sources */,
 				8701430C28E8A4B100B318DC /* ProgressCollectionViewCell.swift in Sources */,
 				870142FD28DEF95000B318DC /* HabitsViewController.swift in Sources */,
 				8701430828E3775C00B318DC /* HabitViewController.swift in Sources */,
