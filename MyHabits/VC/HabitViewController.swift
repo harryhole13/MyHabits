@@ -11,6 +11,20 @@ class HabitViewController: UIViewController {
     
     var index: Int?
     
+    init(hideDeleteButton: Bool,
+         nameHabit: String,
+         colorButton: UIColor)
+    {
+        super.init(nibName: nil, bundle: nil)
+        self.deleteHabitButton.isHidden = hideDeleteButton
+        self.nameHabit.text = nameHabit
+        self.colorButton.backgroundColor = colorButton
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     private lazy var saveButton:UIButton = {
         let button = UIButton()
         button.setTitleColor(UIColor(named: "AccentColor"), for: .normal)
@@ -116,9 +130,7 @@ class HabitViewController: UIViewController {
                 title: "End of quest",
                 message: "Вы хотите удалить привычку ",
                 preferredStyle: .alert
-               
             )
-            
             let okAction = UIAlertAction(
                 title: "Sure",
                 style: .default) {
@@ -127,7 +139,6 @@ class HabitViewController: UIViewController {
                     print ("Delete habit index \(self.index!)")
                     self.navigationController?.popToRootViewController(animated: true)
                     }
-            
             let cancelAlert = UIAlertAction(
                 title: "Cancel",
                 style: .cancel,
@@ -140,34 +151,24 @@ class HabitViewController: UIViewController {
     
     
     @objc private func editColorButton() {
-        
         let picker = UIColorPickerViewController()
         picker.delegate = self
         self.present(picker, animated: true, completion: nil)
-    
     }
     
     @objc private func saveHabit() {
-        
         let newHabit = Habit(name: nameHabit.text ?? "",
                              date: Date(),
                              color: colorButton.backgroundColor ?? .systemBackground)
         let store = HabitsStore.shared
-        
         if deleteHabitButton.isHidden == true {
-            
             store.habits.append(newHabit)
-     
             print("add \(newHabit.isAlreadyTakenToday)")
-            
             dismiss(animated: true, completion: nil)
-            
         } else {
-           
             store.habits[index!] = newHabit
             print("Replace index \(index!)")
             navigationController?.popToRootViewController(animated: true)
-//            dismiss(animated: true, completion: nil)
         }
     }
         
@@ -181,9 +182,7 @@ class HabitViewController: UIViewController {
     }()
     
     @objc private func backVC() {
-        
         if deleteHabitButton.isHidden == true {
-            
             dismiss(animated: true, completion: nil)
         } else {
             navigationController?.popViewController(animated: true)
@@ -240,7 +239,6 @@ class HabitViewController: UIViewController {
     private func setupDeleteHabitButton() -> [NSLayoutConstraint] {
         let centerXAnchor = self.deleteHabitButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         let bottomAnchor = self.deleteHabitButton.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,constant: -18)
-//        let heightAnchor = self.deleteHabitButton.heightAnchor.constraint(equalToConstant: 22)
         return [
             bottomAnchor, centerXAnchor
         ]
@@ -301,28 +299,15 @@ class HabitViewController: UIViewController {
         ]
     }
 
-    init(hideDeleteButton: Bool, nameHabit: String, colorButton: UIColor) {
-        
-        super.init(nibName: nil, bundle: nil)
-        self.deleteHabitButton.isHidden = hideDeleteButton
-        self.nameHabit.text = nameHabit
-        self.colorButton.backgroundColor = colorButton
-       }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 extension HabitViewController: UIColorPickerViewControllerDelegate {
     
-    //  Called once you have finished picking the color.
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
         self.colorButton.backgroundColor = viewController.selectedColor
-        
     }
-    
-    //  Called on every color selection done in the picker.
+   
     func colorPickerViewControllerDidSelectColor(_ viewController: UIColorPickerViewController) {
             self.colorButton.backgroundColor = viewController.selectedColor
     }

@@ -12,10 +12,23 @@ protocol TrackerDelegate: AnyObject {
 }
 
 class HabitCollectionViewCell: UICollectionViewCell {
-    
-//    var delegate: HabitsViewController? // тоже самое только без протокола
+
     var delegate_tracker: TrackerDelegate?
+    var habbit: Habit?
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.contentView.backgroundColor = .white
+        self.contentView.addSubview(nameHabit)
+        self.contentView.addSubview(everyDayInTime)
+        self.contentView.addSubview(countLabel)
+        self.contentView.addSubview(tracker)
+        self.setupGestureCircle()
+        NSLayoutConstraint.activate(setupEveryDayInTime())
+        NSLayoutConstraint.activate(setupNameHabit())
+        NSLayoutConstraint.activate(setupCountLabel())
+        NSLayoutConstraint.activate(setupTracker())
+    }
     
     private lazy var nameHabit:UILabel = {
         let label = UILabel()
@@ -46,26 +59,9 @@ class HabitCollectionViewCell: UICollectionViewCell {
    
     lazy var tracker:UIImageView = {
         let image = UIImageView()
-        
-        image.image = UIImage(systemName: "circle")
-
         image.translatesAutoresizingMaskIntoConstraints = false
         return image
     }()
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.contentView.backgroundColor = .white
-        self.contentView.addSubview(nameHabit)
-        self.contentView.addSubview(everyDayInTime)
-        self.contentView.addSubview(countLabel)
-        self.contentView.addSubview(tracker)
-        self.setupGestureCircle()
-        NSLayoutConstraint.activate(setupEveryDayInTime())
-        NSLayoutConstraint.activate(setupNameHabit())
-        NSLayoutConstraint.activate(setupCountLabel())
-        NSLayoutConstraint.activate(setupTracker())
-    }
     
     private func setupNameHabit() -> [NSLayoutConstraint] {
         let topAnchor = self.nameHabit.topAnchor.constraint(equalTo: self.contentView.topAnchor,constant: 20)
@@ -107,7 +103,7 @@ class HabitCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func setupGestureCircle() {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.addTarget(self, action: #selector(tapAction))
@@ -117,18 +113,26 @@ class HabitCollectionViewCell: UICollectionViewCell {
     }
 
     @objc func tapAction() {
-        delegate_tracker?.trackerIsReady(cell: self)
-        
         print("@Objc tapAction ")
-        
+        if let unwrapHabbit = habbit {
+            if unwrapHabbit.isAlreadyTakenToday {
+                habbit?.trackDates.removeLast()
+            } else {
+                HabitsStore.shared.track(unwrapHabbit)
+            }
+            
+        }
+        delegate_tracker?.trackerIsReady(cell: self)
     }
     
-    func setupCell(with habit: Habit) {
-        self.nameHabit.text = habit.name
-        self.tracker.tintColor = habit.color
-        self.everyDayInTime.text = habit.dateString
-        if habit.isAlreadyTakenToday {
+    func setupCell() {
+        self.nameHabit.text = self.habbit?.name
+        self.tracker.tintColor = self.habbit?.color
+        self.everyDayInTime.text = self.habbit?.dateString
+        if let unwrapHabit = habbit, unwrapHabit.isAlreadyTakenToday {
             self.tracker.image = UIImage(systemName: "checkmark.circle.fill")
+        } else {
+            self.tracker.image = UIImage(systemName: "circle")
         }
     }
 }

@@ -18,7 +18,7 @@ class HabitsViewController: UIViewController {
         return layout
     }()
 
-    private lazy var coollectionView: UICollectionView = {
+    lazy var coollectionView: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: self.layout)
         collection.translatesAutoresizingMaskIntoConstraints = false
         collection.backgroundColor = .lightGray
@@ -90,21 +90,13 @@ class HabitsViewController: UIViewController {
 
 extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, TrackerDelegate {
     
-//    func upProgress() {
-//        self.coollectionView.reloadData()
-//       
-//    }
-    
-    
+    func updateProgressCollectionCell () {
+        let cell = self.coollectionView.cellForItem(at: IndexPath(item: 0, section: 0)) as? ProgressCollectionViewCell
+        cell?.upProgress()
+    }
     
     func trackerIsReady(cell: UICollectionViewCell) {
-        guard let indexPath = self.coollectionView.indexPath(for: cell) else {
-            return
-            }
-        HabitsStore.shared.track(HabitsStore.shared.habits[indexPath.row - 1])
-        self.coollectionView.reloadData()
-        print("Reload Collection")
-        print("addCurrent Date in cell \(indexPath.row)")
+        coollectionView.reloadData()
         }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -124,18 +116,17 @@ extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDele
             print("render progress")
             cell.layer.cornerRadius = 8
             cell.clipsToBounds = true
-            
+            cell.upProgress()
             return cell
         } else {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Habit", for: indexPath) as? HabitCollectionViewCell
             else {
                 return UICollectionViewCell()
             }
-            
             let habit = HabitsStore.shared.habits[indexPath.row - 1]
-            cell.setupCell(with: habit)
+            cell.habbit = habit
+            cell.setupCell()
             cell.delegate_tracker = self
-            cell.setupCell(with: habit)
             print("render \(indexPath.row - 1)")
             cell.layer.cornerRadius = 8
             cell.clipsToBounds = true
@@ -146,19 +137,13 @@ extension HabitsViewController: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if indexPath.row != 0 {
             let edit1 = HabitDetailsViewController()
-            
             edit1.habit = HabitsStore.shared.habits[indexPath.row - 1]
-//            print("press habit \(indexPath) ")
-//            print("press \(HabitsStore.shared.habits[indexPath.row - 1].name)")
             edit1.index = indexPath.row - 1
-            
             edit1.chek = HabitsStore.shared.habits[indexPath.row - 1].name
             edit1.nameTitleHabit = HabitsStore.shared.habits[indexPath.row - 1].name
-            
             print("didSelect navigationController?.pushViewController(edit1, animated: true) ")
             navigationController?.pushViewController(edit1, animated: true) // YАш VC
         }
     }
 }
-
 

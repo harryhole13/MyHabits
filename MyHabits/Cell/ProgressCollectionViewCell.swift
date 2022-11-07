@@ -7,15 +7,9 @@
 
 import UIKit
 
-//protocol ProgressDelegate: AnyObject {
-//    func upProgress()
-//}
-
 class ProgressCollectionViewCell: UICollectionViewCell {
     
-    var delegate: TrackerDelegate?
-    
-    private lazy var everythingWillDone:UILabel = {
+    private lazy var everythingWillDone: UILabel = {
         let label = UILabel()
         label.text = "Всё получится!"
         label.textColor = .black
@@ -25,7 +19,7 @@ class ProgressCollectionViewCell: UICollectionViewCell {
     }()
     
     
-    private lazy var percent:UILabel = {
+    private lazy var percent: UILabel = {
         let label = UILabel()
         let value = Int(HabitsStore.shared.todayProgress * 100)
         label.text = "\(value)%"
@@ -36,35 +30,23 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private lazy var stripProgressEmpty:UIView = {
-        let view = UIView()
-        view.backgroundColor = .lightGray
-        view.layer.cornerRadius = 5
+    private lazy var progressView: UIProgressView = {
+        let view = UIProgressView()
+        view.progressViewStyle = .default
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
-    private lazy var stripProgressFull:UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor(named: "AccentColor")
-        view.layer.cornerRadius = 5
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
-    
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.contentView.backgroundColor = .white
         self.contentView.addSubview(everythingWillDone)
         self.contentView.addSubview(percent)
-        self.contentView.addSubview(stripProgressEmpty)
-        self.contentView.addSubview(stripProgressFull)
+        self.contentView.addSubview(progressView)
+        self.upProgress()
         NSLayoutConstraint.activate(setupEverythingWillDone())
         NSLayoutConstraint.activate(setupPercent())
-        NSLayoutConstraint.activate(setupStripProgressEmpty())
-        NSLayoutConstraint.activate(setupStripProgressFull())
+        NSLayoutConstraint.activate(setupProgressView())
     }
     
     required init?(coder: NSCoder) {
@@ -90,24 +72,19 @@ class ProgressCollectionViewCell: UICollectionViewCell {
         ]
     }
     
-    private func setupStripProgressFull() -> [NSLayoutConstraint] {
-        let topAnchor = self.stripProgressFull.topAnchor.constraint(equalTo: self.contentView.topAnchor,constant: 38)
-        let bottomAnchor = self.stripProgressFull.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15)
-        let leadingAnchor = self.stripProgressFull.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 12)
-        let widthAnchor = self.stripProgressFull.widthAnchor.constraint(equalToConstant: (UIScreen.main.bounds.width - 57) * CGFloat(HabitsStore.shared.todayProgress))
-        
-        return [
-            topAnchor, leadingAnchor, bottomAnchor, widthAnchor
-        ]
-    }
-    
-    private func setupStripProgressEmpty() -> [NSLayoutConstraint] {
-        let topAnchor = self.stripProgressEmpty.topAnchor.constraint(equalTo: self.contentView.topAnchor,constant: 38)
-        let bottomAnchor = self.stripProgressEmpty.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15)
-        let leadingAnchor = self.stripProgressEmpty.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 12)
-        let trailingAnchor = self.stripProgressEmpty.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,constant: -12)
+    private func setupProgressView() -> [NSLayoutConstraint] {
+        let topAnchor = self.progressView.topAnchor.constraint(equalTo: self.contentView.topAnchor,constant: 38)
+        let bottomAnchor = self.progressView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -15)
+        let leadingAnchor = self.progressView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,constant: 12)
+        let trailingAnchor = self.progressView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,constant: -12)
         return [
             topAnchor, leadingAnchor, bottomAnchor, trailingAnchor
         ]
     }
+    
+    func upProgress(){
+        self.progressView.setProgress(HabitsStore.shared.todayProgress, animated: true)
+        self.percent.text = "\(Int(HabitsStore.shared.todayProgress * 100))%"
+    }
+    
 }

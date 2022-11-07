@@ -46,12 +46,10 @@ class HabitDetailsViewController: UIViewController {
     
     @objc private func editHabit() {
         let VC = HabitViewController(hideDeleteButton: false, nameHabit: habit.name, colorButton: habit.color)
-//        let edit = UINavigationController(rootViewController: VC)
         VC.index = self.index
         VC.modalPresentationStyle = .fullScreen
         print("touchButton index \(index)")
         navigationController?.pushViewController(VC, animated: true)
-//        self.present(VC, animated: true)  //modalno
     }
     
     let imageChek:UIImageView = {
@@ -71,9 +69,7 @@ class HabitDetailsViewController: UIViewController {
         self.navigationItem.title = nameTitleHabit
         print("viewDidLoad HabitDetailsViewController")
         calculateDates(from: habit.date)
-//        print(arrayDates)
         NSLayoutConstraint.activate(setupTableVIew())
-//        print("PRINT CHECK \(chek)")
         
     }
     
@@ -108,22 +104,17 @@ extension HabitDetailsViewController: UITableViewDelegate, UITableViewDataSource
         currentDate.dateStyle = .medium
         currentDate.doesRelativeDateFormatting = true
         currentDate.string(from: arrayDates[indexPath.row])
-    
+        let cell = UITableViewCell()
+        let active:UILabel = {
+            let label = UILabel()
+            label.text = "\(currentDate.string(from: arrayDates[indexPath.row]))"
+            label.font = .systemFont(ofSize: 17)
+            label.textColor = .black
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
         
-//                print("loop start \(indexPath.row)")
-//                print(Date())
-                let cell = UITableViewCell()
-                let active:UILabel = {
-                    let label = UILabel()
-                    label.text = "\(currentDate.string(from: arrayDates[indexPath.row]))"
-                    label.font = .systemFont(ofSize: 17)
-                    label.textColor = .black
-                    label.translatesAutoresizingMaskIntoConstraints = false
-                    return label
-                }()
-                
-                cell.backgroundColor = .white
-        
+        cell.backgroundColor = .white
         if habit.isAlreadyTakenToday {
             cell.addSubview(self.imageChek)
             NSLayoutConstraint.activate([
@@ -132,16 +123,14 @@ extension HabitDetailsViewController: UITableViewDelegate, UITableViewDataSource
                 self.imageChek.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -14),
             ])
         }
-                cell.addSubview(active)
-                NSLayoutConstraint.activate([
-                    
-                    active.topAnchor.constraint(equalTo: cell.topAnchor, constant: 11),
-                    active.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -11),
-                    active.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 16),
-               
-                ])
-                return cell
-            }
+        cell.addSubview(active)
+        NSLayoutConstraint.activate([
+            active.topAnchor.constraint(equalTo: cell.topAnchor, constant: 11),
+            active.bottomAnchor.constraint(equalTo: cell.bottomAnchor, constant: -11),
+            active.leadingAnchor.constraint(equalTo: cell.leadingAnchor, constant: 16),
+        ])
+        return cell
+    }
 
 }
                   
